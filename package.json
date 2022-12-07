@@ -10,10 +10,12 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@mdi/font": "^7.0.96",
+    "@nuxt/image-edge": "1.0.0-27840416.dc1ed65",
     "nuxt": "3.0.0",
     "sass": "^1.56.1"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.6",
     "vuetify": "^3.0.3"
   }
 }

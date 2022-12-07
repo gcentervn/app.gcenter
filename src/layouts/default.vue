@@ -1,65 +1,45 @@
 <script setup lang="ts">
-const drawer = ref(null)
+import DefaultSystemBar from '@/components/layout/default/SystemBar.vue'
+import DefaultDrawerRail from '@/components/layout/default/DefaultDrawerRail.vue'
+import DefaultDrawerLeft from '@/components/layout/default/DefaultDrawerLeft.vue'
+import DefaultAppBar from '@/components/layout/default/DefaultAppBar.vue'
+import DefaultDrawerRight from '@/components/layout/default/DefaultDrawerRight.vue'
+
+import { storeToRefs } from 'pinia'
+
+const GlobalStore = useGlobalStore()
+const { drawer } = storeToRefs(GlobalStore)
+
 </script>
 <template>
-    <v-system-bar>
-        <v-spacer></v-spacer>
-
-        <v-icon>mdi-square</v-icon>
-
-        <v-icon>mdi-circle</v-icon>
-
-        <v-icon>mdi-triangle</v-icon>
+    <v-system-bar app>
+        <DefaultSystemBar />
     </v-system-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute color="grey-lighten-3" rail>
-        <v-avatar class="d-block text-center mx-auto mt-4" color="grey-darken-1" size="36"></v-avatar>
-
-        <v-divider class="mx-3 my-5"></v-divider>
-
-        <v-avatar v-for="n in 6" :key="n" class="d-block text-center mx-auto mb-9" color="grey-lighten-1"
-            size="28"></v-avatar>
+    <v-navigation-drawer app color="grey-lighten-3" rail rail-width="48" permanent>
+        <DefaultDrawerRail />
     </v-navigation-drawer>
 
-    <v-navigation-drawer v-model="drawer" width="300">
-        <v-sheet color="grey-lighten-5" height="128" width="100%"></v-sheet>
-
-        <v-list class="pl-14" shaped>
-            <v-list-item v-for="n in 5" :key="n" link>
-
-                <v-list-item-title>Item {{ n }}</v-list-item-title>
-
-            </v-list-item>
-        </v-list>
+    <v-navigation-drawer app v-model="drawer">
+        <DefaultDrawerLeft />
     </v-navigation-drawer>
 
-    <v-app-bar flat height="72" class="px-3" color="grey-lighten-4">
-        <v-spacer></v-spacer>
-
-        <v-responsive max-width="156">
-            <v-text-field density="compact" hide-details rounded></v-text-field>
-        </v-responsive>
+    <v-app-bar app flat height="48" class="px-3" color="grey-lighten-4">
+        <DefaultAppBar />
     </v-app-bar>
 
-    <v-main>
-        <v-container fluid>
+    <v-main app>
+        <v-container>
             <slot />
         </v-container>
     </v-main>
 
-    <v-navigation-drawer location="right">
-        <v-list>
-            <v-list-item v-for="n in 5" :key="n" link>
-
-                <v-list-item-title>Item {{ n }}</v-list-item-title>
-
-            </v-list-item>
-        </v-list>
+    <v-navigation-drawer app location="right">
+        <DefaultDrawerRight />
     </v-navigation-drawer>
 
     <!-- <v-footer app color="transparent" height="72" inset>
-        <v-text-field bg-color="grey lighten-1" density="compact" flat hide-details rounded
-            variant="solo"></v-text-field>
+        <LayoutFooter />
     </v-footer> -->
 
 </template>
