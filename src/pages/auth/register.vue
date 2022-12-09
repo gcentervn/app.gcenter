@@ -2,9 +2,11 @@
 import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
 
+const swal: any = inject("$swal");
+
 const AuthStore = useAuthStore()
 
-const { isAuthenticated, errors } = storeToRefs(AuthStore)
+const { errors } = storeToRefs(AuthStore)
 
 definePageMeta({
     layout: 'auth'
@@ -21,12 +23,31 @@ const schema = {
 
 const dialog = ref(false)
 
-function onSubmitRegister(values: any) {
+async function onSubmitRegister(values: any) {
     dialog.value = true
-    AuthStore.register(values)
-    setTimeout(() => {
-        dialog.value = false
-    }, 1000);
+    await AuthStore.register(values)
+    dialog.value = false
+
+    if (!errors) {
+        await swal.fire({
+            text: "Đăng ký thành công !",
+            icon: "success",
+            confirmButtonText: "Tiếp theo",
+        }).then(() => {
+            navigateTo({ path: 'login' })
+        });
+    } else {
+        const errorCode = JSON.stringify(errors.value.code)
+        const errorMsg = JSON.stringify(errors.value.msg)
+        await swal.fire({
+            title: 'LỖI !!!',
+            html: 'Mã: ' + errorCode + '<br>Mô tả: ' + errorMsg,
+            icon: "error",
+            confirmButtonText: "Quay lại",
+        }).then(() => {
+            navigateTo({ path: 'register' })
+        });
+    }
 
 }
 </script>
@@ -36,7 +57,7 @@ function onSubmitRegister(values: any) {
         <v-row class="h-100">
             <v-col class="d-flex justify-center align-center h-100">
                 <v-card variant="outlined" width="340">
-                    <v-card-title class="mb-3 text-center">ĐĂNG KÝ TÀI KHOẢN {{ JSON.stringify(errors) }}</v-card-title>
+                    <v-card-title class="mb-3 text-center">ĐĂNG KÝ TÀI KHOẢN</v-card-title>
                     <v-card-text>
                         <Form as="v-form" :validation-schema="schema" @submit="onSubmitRegister">
                             <!-- This method uses Higher-order component API to validate vuetify inputs -->

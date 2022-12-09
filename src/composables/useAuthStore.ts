@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
                 const auth_user = response.auth_user
                 const token = response.trongateToken
                 setAuth(auth_user, token)
-            }).catch((error) => errors.value = error.data)
+            }).catch((error) => errors.value = error.data.error)
     }
 
     async function logout() {

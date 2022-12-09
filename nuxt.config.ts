@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.css',
         '@fortawesome/fontawesome-free/css/all.css',
+        'sweetalert2/src/sweetalert2.scss',
     ],
     /* build: {
         transpile: [
