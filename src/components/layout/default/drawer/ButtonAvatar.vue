@@ -1,3 +1,10 @@
+<script setup lang="ts">
+const AuthStore = useAuthStore()
+
+function btnLogout() {
+    AuthStore.logout()
+}
+</script>
 <template>
     <div>
         <v-menu transition="slide-x-transition" :close-on-content-click="false" open-delay="10" close-delay="100">
@@ -66,7 +73,7 @@
                         </v-list-item>
                         <v-divider class="my-2"></v-divider>
                         <v-list-item>
-                            <v-btn variant="outlined" class="w-100">Đăng
+                            <v-btn variant="outlined" class="w-100" @click="btnLogout()">Đăng
                                 Xuất</v-btn>
                         </v-list-item>
                     </v-list>
