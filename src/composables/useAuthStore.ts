@@ -4,6 +4,7 @@ const config = useRuntimeConfig()
 const authFetch = $fetch.create({ baseURL: '/api' })
 
 interface User {
+    value: any
     id: number,
     provider: string,
     provider_username: string,
@@ -11,10 +12,10 @@ interface User {
     display_name: string,
     email_adress: string,
     role: string,
-    trongateToken: string
 }
 
 interface Errors {
+    value: any
     msg: string | null,
     code: string | null,
 }
@@ -38,7 +39,6 @@ export const useAuthStore = defineStore('auth', () => {
         errors.value = {}
         await localStorage.removeItem('user')
         await localStorage.removeItem('token')
-        console.log('Đã đăng xuất !')
     }
 
     async function register(values: any) {
@@ -55,8 +55,6 @@ export const useAuthStore = defineStore('auth', () => {
                 const auth_user = response.auth_user
                 const token = response.trongateToken
                 setAuth(auth_user, token)
-                console.log(response)
-                //setAuth(auth_user) as object | undefined
             }).catch((error) => errors.value = error.data)
     }
 
@@ -66,7 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     return {
         errors, user, isAuthenticated,
-        setAuth, register, logout
+        register, logout
     }
 })
 
