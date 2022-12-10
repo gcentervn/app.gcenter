@@ -1,7 +1,11 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 const config = useRuntimeConfig()
-const authFetch = $fetch.create({ baseURL: '/api' })
+const authFetch = $fetch.create(
+    {
+        baseURL: `${config.API_BASE_URL}/auth/`,
+        parseResponse: JSON.parse
+    })
 
 interface User {
     value: any
@@ -23,7 +27,7 @@ interface Errors {
 export const useAuthStore = defineStore('auth', () => {
     const errors = ref({}) as unknown as Errors
     const user = ref(JSON.parse(localStorage.getItem('user') as any)) as User
-    const isAuthenticated = ref(JSON.parse(localStorage.getItem('token') as any))
+    const isAuthenticated = ref(JSON.parse(localStorage.getItem('token') as any) ? true : false)
 
     async function setAuth(auth_user: any, token: any) {
         isAuthenticated.value = true
@@ -42,20 +46,37 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function register(values: any) {
-        await authFetch(`${config.API_BASE_URL}/auth/register`,
+        await purgeAuth()
+        await authFetch(`register`,
             {
                 method: 'POST',
                 body: JSON.stringify({
                     username: values.username,
                     password: values.password,
-                    email_address: values.email_address ? values.email_address : values.username + '@gcenter.vn'
-                }),
-                parseResponse: JSON.parse
+                    email_address: values.email_address
+                })
             }).then((response: any) => {
                 const auth_user = response.auth_user
                 const token = response.trongateToken
                 setAuth(auth_user, token)
-            }).catch((error) => errors.value = error.data.error)
+            }).catch((error) => errors.value = error.data)
+    }
+
+    async function login(values: any) {
+        await purgeAuth()
+        await authFetch(`login`,
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password,
+                    remember: values.remember
+                })
+            }).then((response: any) => {
+                const auth_user = response.auth_user
+                const token = response.trongateToken
+                setAuth(auth_user, token)
+            }).catch((error) => errors.value = error.data)
     }
 
     async function logout() {
@@ -64,7 +85,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     return {
         errors, user, isAuthenticated,
-        register, logout
+        register, login, logout
     }
 })
 

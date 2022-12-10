@@ -1,18 +1,50 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
+
+const swal: any = inject("$swal");
+
+const AuthStore = useAuthStore()
+
+const { errors } = storeToRefs(AuthStore)
+
+definePageMeta({
+    layout: 'auth'
+})
 
 const schema = {
     username: 'required|min:3|max:66',
     password: 'required|min:8|max:333',
 };
 
-definePageMeta({
-    layout: 'auth'
-})
+const dialog = ref(false)
 
-function onSubmit(values: any) {
-    console.log('Tiến hành đăng nhập')
-    console.log(values)
+async function onSubmitLogin(values: any) {
+    dialog.value = true
+    await AuthStore.login(values)
+    dialog.value = false
+
+    if (errors.value.msg == undefined) {
+        await swal.fire({
+            text: "Đăng nhập thành công !",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1000
+        }).then(() => {
+            navigateTo({ path: '/app' })
+        });
+    } else {
+        const errorCode = JSON.stringify(errors.value.code)
+        const errorMsg = JSON.stringify(errors.value.msg)
+        await swal.fire({
+            title: 'LỖI !!!',
+            html: 'Mã: ' + errorCode + '<br>Mô tả: ' + errorMsg,
+            icon: "error",
+            confirmButtonText: "Quay lại",
+        }).then(() => {
+            navigateTo({ path: 'login' })
+        });
+    }
 }
 </script>
 
@@ -23,7 +55,7 @@ function onSubmit(values: any) {
                 <v-card variant="outlined" width="340">
                     <v-card-title class="mb-3 text-center">ĐĂNG NHẬP TÀI KHOẢN</v-card-title>
                     <v-card-text>
-                        <Form as="v-form" :validation-schema="schema" @submit="onSubmit">
+                        <Form as="v-form" :validation-schema="schema" @submit="onSubmitLogin">
                             <!-- This method uses Higher-order component API to validate vuetify inputs -->
                             <Field name="username" v-slot="{ field, errors }" label="Tài khoản">
                                 <v-text-field variant="outlined" v-bind="field" label="Tài khoản hoặc Email*"
@@ -41,13 +73,15 @@ function onSubmit(values: any) {
                             <!-- Same thing for other types of components -->
                             <!-- In case of checkboxes you need to explicitly bind the model events -->
                             <!-- With composition it is easier since you can use the `v-model` API directly -->
-                            <Field name="terms" :value="true" type="checkbox" v-slot="{ value, handleChange, errors }">
+                            <Field name="remember" :value="true" type="checkbox"
+                                v-slot="{ value, handleChange, errors }">
                                 <v-checkbox :model-value="value" @update:modelValue="handleChange"
                                     label="Ghi nhớ đăng nhập?" color="primary" :error-messages="errors" />
                             </Field>
                             <v-row class="align-center">
                                 <v-col>
-                                    <v-btn color="primary" type="submit"> Đăng Nhập </v-btn>
+                                    <v-btn color="primary" type="submit" :disabled="dialog" :loading="dialog"> Đăng Nhập
+                                    </v-btn>
                                 </v-col>
                                 <v-spacer></v-spacer>
                                 <v-col class="text-caption">
@@ -60,6 +94,14 @@ function onSubmit(values: any) {
                 </v-card>
             </v-col>
         </v-row>
+        <v-dialog v-model="dialog" :scrim="false" persistent>
+            <v-card color="primary">
+                <v-card-text>
+                    Tiến hành đăng nhập ...
+                    <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 

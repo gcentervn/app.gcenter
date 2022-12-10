@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     }, */
     modules: [
         '@nuxt/image-edge',
-        '@pinia/nuxt'
+        //'@pinia/nuxt'
     ],
     image: {
         // The screen sizes predefined by `@nuxt/image`:

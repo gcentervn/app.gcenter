@@ -28,11 +28,12 @@ async function onSubmitRegister(values: any) {
     await AuthStore.register(values)
     dialog.value = false
 
-    if (!errors) {
+    if (!errors.value.msg) {
         await swal.fire({
             text: "Đăng ký thành công !",
             icon: "success",
-            confirmButtonText: "Tiếp theo",
+            confirmButtonText: "Đến trang đăng nhập",
+            timer: 5000,
         }).then(() => {
             navigateTo({ path: 'login' })
         });
