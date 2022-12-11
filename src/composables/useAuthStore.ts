@@ -38,16 +38,14 @@ interface Errors {
 
 export const useAuthStore = defineStore('auth', () => {
     const errors = ref({}) as unknown as Errors
-    const user = ref(userToken.value ? userToken.value : {} as any) as User
+    const user = ref(!!userToken.value ? userToken.value : {} as any) as User
     const isAuthenticated = ref(!!cookieToken.value)
 
     async function verifyAuth() {
-        if (isAuthenticated) {
+        if (!!cookieToken.value) {
             await tokenFetch('verify_token', {
                 method: 'POST',
-                parseResponse: JSON.parse
             }).then((response: any) => {
-                console.log(response)
                 const auth_user = response.auth_user
                 const token = cookieToken.value
                 setAuth(auth_user, token)
@@ -57,7 +55,6 @@ export const useAuthStore = defineStore('auth', () => {
             })
         } else {
             await purgeAuth()
-            await navigateTo({ path: 'login' })
         }
     }
 
