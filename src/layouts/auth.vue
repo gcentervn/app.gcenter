@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DefaultSystemBar from '@/components/layout/default/SystemBar.vue'
+import DefaultSystemBar from '@/components/layout/default/DefaultSystemBar.vue'
 
 </script>
 <template>

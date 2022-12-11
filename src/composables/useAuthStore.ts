@@ -1,11 +1,23 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
+const cookieToken = useCookie('token')
+const userToken = useCookie('user')
+
 const config = useRuntimeConfig()
-const authFetch = $fetch.create(
-    {
-        baseURL: `${config.API_BASE_URL}/auth/`,
-        parseResponse: JSON.parse
-    })
+
+const authFetch = $fetch.create({
+    baseURL: `${config.API_BASE_URL}/auth/`,
+    credentials: 'include',
+    parseResponse: JSON.parse
+})
+
+const tokenFetch = $fetch.create({
+    baseURL: `${config.API_BASE_URL}/auth/`,
+    credentials: 'include',
+    headers: {
+        'trongateToken': cookieToken.value ? cookieToken.value : ''
+    },
+})
 
 interface User {
     value: any
@@ -26,23 +38,43 @@ interface Errors {
 
 export const useAuthStore = defineStore('auth', () => {
     const errors = ref({}) as unknown as Errors
-    const user = ref(JSON.parse(localStorage.getItem('user') as any)) as User
-    const isAuthenticated = ref(JSON.parse(localStorage.getItem('token') as any) ? true : false)
+    const user = ref(userToken.value ? userToken.value : {} as any) as User
+    const isAuthenticated = ref(!!cookieToken.value)
+
+    async function verifyAuth() {
+        if (isAuthenticated) {
+            await tokenFetch('verify_token', {
+                method: 'POST',
+                parseResponse: JSON.parse
+            }).then((response: any) => {
+                console.log(response)
+                const auth_user = response.auth_user
+                const token = cookieToken.value
+                setAuth(auth_user, token)
+            }).catch((error) => {
+                purgeAuth()
+                errors.value = error.data
+            })
+        } else {
+            await purgeAuth()
+            await navigateTo({ path: 'login' })
+        }
+    }
 
     async function setAuth(auth_user: any, token: any) {
         isAuthenticated.value = true
         user.value = auth_user
         errors.value = {}
-        await localStorage.setItem('user', JSON.stringify(auth_user))
-        await localStorage.setItem('token', JSON.stringify(token))
+        userToken.value = userToken.value || JSON.stringify(auth_user)
+        cookieToken.value = cookieToken.value || JSON.stringify(token)
     }
 
     async function purgeAuth() {
         isAuthenticated.value = false
         user.value = {}
         errors.value = {}
-        await localStorage.removeItem('user')
-        await localStorage.removeItem('token')
+        userToken.value = null
+        cookieToken.value = null
     }
 
     async function register(values: any) {
@@ -85,7 +117,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     return {
         errors, user, isAuthenticated,
-        register, login, logout
+        verifyAuth, register, login, logout
     }
 })
 

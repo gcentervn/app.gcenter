@@ -3,7 +3,7 @@ import ButtonThemeSetting from '@/components/layout/default/system-bar/ButtonThe
 </script>
 <template>
     <v-btn size="36" variant="plain" class="mr-md-4">
-        <nuxt-img src="default-small.webp" height="24" />
+        <nuxt-picture src="/default-small.webp" :imgAttrs="{ style: 'height:24px' }" />
     </v-btn>
 
     <v-btn v-for="text in ['Trung tâm', 'Trò Chơi', 'Cửa Hàng']" variant="plain" class="text-caption pa-0 mx-1">

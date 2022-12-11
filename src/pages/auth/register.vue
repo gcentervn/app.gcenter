@@ -32,10 +32,10 @@ async function onSubmitRegister(values: any) {
         await swal.fire({
             text: "Đăng ký thành công !",
             icon: "success",
-            confirmButtonText: "Đến trang đăng nhập",
+            confirmButtonText: "Tiếp tục",
             timer: 5000,
         }).then(() => {
-            navigateTo({ path: 'login' })
+            navigateTo({ path: '/app' })
         });
     } else {
         const errorCode = JSON.stringify(errors.value.code)

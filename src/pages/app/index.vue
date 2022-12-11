@@ -7,6 +7,7 @@ const { isAuthenticated, user } = storeToRefs(AuthStore)
 
 </script>
 <template>
-    <h1>Token: {{ isAuthenticated }}</h1><br>
-    <h1>User: {{ user }}</h1>
+    <h3>Token: {{ isAuthenticated }}</h3><br>
+    <p>User: {{ user }}</p>
+    <v-btn @click="AuthStore.verifyAuth">Verify Auth</v-btn>
 </template>

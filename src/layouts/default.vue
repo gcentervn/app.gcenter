@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DefaultSystemBar from '@/components/layout/default/SystemBar.vue'
+import DefaultSystemBar from '@/components/layout/default/DefaultSystemBar.vue'
 import DefaultDrawerRail from '@/components/layout/default/DefaultDrawerRail.vue'
 import DefaultDrawerLeft from '@/components/layout/default/DefaultDrawerLeft.vue'
 import DefaultAppBar from '@/components/layout/default/DefaultAppBar.vue'

@@ -9,9 +9,8 @@ export default defineNuxtConfig({
         }
     },
     routeRules: {
-        '/**': {
-            cors: false
-        }
+        '/': { prerender: true },
+        '/**': { cors: true }
     },
     css: [
         'vuetify/lib/styles/main.sass',

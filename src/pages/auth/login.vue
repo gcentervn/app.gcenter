@@ -13,8 +13,8 @@ definePageMeta({
 })
 
 const schema = {
-    username: 'required|min:3|max:66',
-    password: 'required|min:8|max:333',
+    username: 'required',
+    password: 'required',
 };
 
 const dialog = ref(false)
