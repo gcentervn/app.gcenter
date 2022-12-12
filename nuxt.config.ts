@@ -12,6 +12,9 @@ export default defineNuxtConfig({
         '/': { prerender: true },
         '/**': { cors: true }
     },
+    imports: {
+        dirs: ['stores'],
+    },
     css: [
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.css',
@@ -26,7 +29,12 @@ export default defineNuxtConfig({
     }, */
     modules: [
         '@nuxt/image-edge',
-        //'@pinia/nuxt'
+        /* [
+            '@pinia/nuxt',
+            {
+                autoImports: ['defineStore', 'acceptHMRUpdate'],
+            },
+        ], */
     ],
     image: {
         // The screen sizes predefined by `@nuxt/image`:

@@ -1,63 +1,51 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
-const cookieToken = useCookie('token')
-const userToken = useCookie('user')
-
-const config = useRuntimeConfig()
-
-const authFetch = $fetch.create({
-    baseURL: `${config.API_BASE_URL}/auth/`,
-    credentials: 'include',
-    parseResponse: JSON.parse
-})
-
-const tokenFetch = $fetch.create({
-    baseURL: `${config.API_BASE_URL}/auth/`,
-    credentials: 'include',
-    headers: {
-        'trongateToken': cookieToken.value ? cookieToken.value : ''
-    },
-})
-
 interface User {
-    value: any
-    id: number,
-    provider: string,
-    provider_username: string,
-    username: string,
-    display_name: string,
-    email_adress: string,
-    role: string,
+    [x: string]: any
+    trongate_user_id: string | null,
+    user_level: string | null,
 }
 
 interface Errors {
-    value: any
+    [x: string]: any
     msg: string | null,
     code: string | null,
 }
 
 export const useAuthStore = defineStore('auth', () => {
+
+    const cookieToken = useCookie('token')
+    const userToken = useCookie('user')
+
+    const apiBaseURL = useRuntimeConfig().public.API_BASE_URL
+
+    const authFetch = $fetch.create({
+        baseURL: `${apiBaseURL}/auth/`,
+        credentials: 'include',
+        parseResponse: JSON.parse
+    })
+    const tokenFetch = $fetch.create({
+        baseURL: `${apiBaseURL}/auth/`,
+        credentials: 'include',
+        headers: {
+            'trongateToken': cookieToken.value ? cookieToken.value : ''
+        },
+        parseResponse: JSON.parse
+    })
+
+    // State
     const errors = ref({}) as unknown as Errors
     const user = ref(!!userToken.value ? userToken.value : {} as any) as User
     const isAuthenticated = ref(!!cookieToken.value)
 
-    async function verifyAuth() {
-        if (!!cookieToken.value) {
-            await tokenFetch('verify_token', {
-                method: 'POST',
-            }).then((response: any) => {
-                const auth_user = response.auth_user
-                const token = cookieToken.value
-                setAuth(auth_user, token)
-            }).catch((error) => {
-                purgeAuth()
-                errors.value = error.data
-            })
-        } else {
-            await purgeAuth()
-        }
+    async function setError(error: any) {
+        errors.value = { ...error }
     }
 
+    // Getter
+    const isUserAuthenticated = computed(() => isAuthenticated.value)
+
+    // Action
     async function setAuth(auth_user: any, token: any) {
         isAuthenticated.value = true
         user.value = auth_user
@@ -74,8 +62,25 @@ export const useAuthStore = defineStore('auth', () => {
         cookieToken.value = null
     }
 
+
+    async function verifyAuth() {
+        if (!!cookieToken) {
+            await tokenFetch('verify_token', {
+                method: 'POST',
+            }).then((response: any) => {
+                setAuth(response.auth_user, JSON.stringify(cookieToken.value))
+            }).catch((error) => {
+                setError(error.data)
+                purgeAuth()
+            })
+        } else {
+            console.log('verify auth failed')
+            await purgeAuth()
+        }
+    }
+
     async function register(values: any) {
-        await purgeAuth()
+        //await purgeAuth()
         await authFetch(`register`,
             {
                 method: 'POST',
@@ -85,14 +90,12 @@ export const useAuthStore = defineStore('auth', () => {
                     email_address: values.email_address
                 })
             }).then((response: any) => {
-                const auth_user = response.auth_user
-                const token = response.trongateToken
-                setAuth(auth_user, token)
-            }).catch((error) => errors.value = error.data)
+                setAuth(response.auth_user, response.trongateToken)
+            }).catch((error) => setError(error.data))
     }
 
     async function login(values: any) {
-        await purgeAuth()
+        //await purgeAuth()
         await authFetch(`login`,
             {
                 method: 'POST',
@@ -100,12 +103,10 @@ export const useAuthStore = defineStore('auth', () => {
                     username: values.username,
                     password: values.password,
                     remember: values.remember
-                })
+                }),
             }).then((response: any) => {
-                const auth_user = response.auth_user
-                const token = response.trongateToken
-                setAuth(auth_user, token)
-            }).catch((error) => errors.value = error.data)
+                setAuth(response.auth_user, response.trongateToken)
+            }).catch((error) => setError(error.data))
     }
 
     async function logout() {
@@ -113,7 +114,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     return {
-        errors, user, isAuthenticated,
+        errors, user, isAuthenticated, isUserAuthenticated,
         verifyAuth, register, login, logout
     }
 })
