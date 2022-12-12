@@ -27,9 +27,6 @@ export const useAuthStore = defineStore('auth', () => {
     const tokenFetch = $fetch.create({
         baseURL: `${apiBaseURL}/auth/`,
         credentials: 'include',
-        headers: {
-            'trongateToken': cookieToken.value ? cookieToken.value : ''
-        },
         parseResponse: JSON.parse
     })
 
@@ -50,8 +47,8 @@ export const useAuthStore = defineStore('auth', () => {
         isAuthenticated.value = true
         user.value = auth_user
         errors.value = {}
-        userToken.value = userToken.value || JSON.stringify(auth_user)
-        cookieToken.value = cookieToken.value || JSON.stringify(token)
+        userToken.value = userToken.value || auth_user
+        cookieToken.value = cookieToken.value || token
     }
 
     async function purgeAuth() {
@@ -64,17 +61,19 @@ export const useAuthStore = defineStore('auth', () => {
 
 
     async function verifyAuth() {
-        if (!!cookieToken) {
+        if (cookieToken) {
             await tokenFetch('verify_token', {
                 method: 'POST',
+                headers: {
+                    'trongateToken': cookieToken.value as string
+                },
             }).then((response: any) => {
-                setAuth(response.auth_user, JSON.stringify(cookieToken.value))
+                setAuth(response.auth_user, cookieToken.value)
             }).catch((error) => {
                 setError(error.data)
                 purgeAuth()
             })
         } else {
-            console.log('verify auth failed')
             await purgeAuth()
         }
     }
