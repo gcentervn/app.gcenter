@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
     ssr: false,
     srcDir: 'src/',
+    components: false,
     runtimeConfig: {
         public: {
             API_BASE_URL: process.env.API_BASE_URL || 'http://api.gcenter.vn'

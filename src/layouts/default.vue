@@ -30,7 +30,7 @@ const { drawer } = storeToRefs(GlobalStore)
     </v-app-bar>
 
     <v-main app>
-        <v-container>
+        <v-container fluid>
             <slot />
         </v-container>
     </v-main>
