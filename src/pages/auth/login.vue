@@ -2,15 +2,15 @@
 import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
 
+definePageMeta({
+    layout: "auth-layout",
+});
+
 const swal: any = inject("$swal");
 
 const AuthStore = useAuthStore()
 
 const { errors } = storeToRefs(AuthStore)
-
-definePageMeta({
-    layout: 'auth'
-})
 
 const schema = {
     username: 'required',
@@ -31,7 +31,7 @@ async function onSubmitLogin(values: any) {
             showConfirmButton: false,
             timer: 1000
         }).then(() => {
-            navigateTo({ path: '/app' })
+            navigateTo('/app')
         });
     } else {
         const errorCode = JSON.stringify(errors.value.code)

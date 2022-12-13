@@ -1,7 +1,10 @@
 export default defineNuxtPlugin(() => {
 
-  addRouteMiddleware('verify-auth', () => {
+  addRouteMiddleware('verify-auth', (to) => {
     const AuthStore = useAuthStore()
+    if (to.name == 'app') {
+      return
+    }
     AuthStore.verifyAuth()
   }, { global: true })
 

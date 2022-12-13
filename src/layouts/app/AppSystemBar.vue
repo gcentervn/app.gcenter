@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ButtonThemeSetting from '@/components/layout/default/system-bar/ButtonThemeSetting.vue'
+import ButtonThemeSetting from '@/layouts/app/system-bar/ButtonThemeSetting.vue'
 </script>
 <template>
     <v-btn size="36" variant="plain" class="mr-md-4">

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import DefaultSystemBar from '@/components/layout/default/DefaultSystemBar.vue'
+import AppSystemBar from '@/layouts/app/AppSystemBar.vue'
 
 </script>
 <template>
     <v-system-bar>
-        <DefaultSystemBar />
+        <AppSystemBar />
     </v-system-bar>
     <v-main>
         <slot />

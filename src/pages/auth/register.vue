@@ -2,15 +2,15 @@
 import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
 
+definePageMeta({
+    layout: "auth-layout",
+});
+
 const swal: any = inject("$swal");
 
 const AuthStore = useAuthStore()
 
 const { errors } = storeToRefs(AuthStore)
-
-definePageMeta({
-    layout: 'auth'
-})
 
 const schema = {
     username: 'required|min:3|max:66',

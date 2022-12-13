@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const AuthStore = useAuthStore()
 
-function btnLogout() {
-    AuthStore.logout()
+async function btnLogout() {
+    await AuthStore.logout()
 }
 </script>
 <template>

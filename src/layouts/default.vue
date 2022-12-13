@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import DefaultSystemBar from '@/components/layout/default/DefaultSystemBar.vue'
-import DefaultDrawerRail from '@/components/layout/default/DefaultDrawerRail.vue'
-import DefaultDrawerLeft from '@/components/layout/default/DefaultDrawerLeft.vue'
-import DefaultAppBar from '@/components/layout/default/DefaultAppBar.vue'
-import DefaultDrawerRight from '@/components/layout/default/DefaultDrawerRight.vue'
+import AppSystemBar from '@/layouts/app/AppSystemBar.vue'
+import AppDrawerRail from '@/layouts/app/AppDrawerRail.vue'
+import AppDrawerLeft from '@/layouts/app/AppDrawerLeft.vue'
+import AppBar from '@/layouts/app/AppBar.vue'
+import AppDrawerRight from '@/layouts/app/AppDrawerRight.vue'
 
 import { storeToRefs } from 'pinia'
 
@@ -11,21 +11,22 @@ const GlobalStore = useGlobalStore()
 const { drawer } = storeToRefs(GlobalStore)
 
 </script>
+
 <template>
     <v-system-bar app>
-        <DefaultSystemBar />
+        <AppSystemBar />
     </v-system-bar>
 
     <v-navigation-drawer app color="grey-lighten-3" rail rail-width="48" permanent>
-        <DefaultDrawerRail />
+        <AppDrawerRail />
     </v-navigation-drawer>
 
     <v-navigation-drawer app v-model="drawer">
-        <DefaultDrawerLeft />
+        <AppDrawerLeft />
     </v-navigation-drawer>
 
     <v-app-bar app flat height="48" class="px-3" color="grey-lighten-4">
-        <DefaultAppBar />
+        <AppBar />
     </v-app-bar>
 
     <v-main app>
@@ -35,7 +36,7 @@ const { drawer } = storeToRefs(GlobalStore)
     </v-main>
 
     <v-navigation-drawer app location="right">
-        <DefaultDrawerRight />
+        <AppDrawerRight />
     </v-navigation-drawer>
 
     <!-- <v-footer app color="transparent" height="72" inset>
