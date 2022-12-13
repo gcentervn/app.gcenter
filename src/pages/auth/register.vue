@@ -2,6 +2,10 @@
 import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
 
+useHead({
+    title: 'Đăng ký'
+})
+
 definePageMeta({
     layout: "auth-layout",
 });
@@ -24,6 +28,7 @@ const schema = {
 const dialog = ref(false)
 
 async function onSubmitRegister(values: any) {
+    await AuthStore.logout()
     dialog.value = true
     await AuthStore.register(values)
     dialog.value = false
@@ -34,8 +39,8 @@ async function onSubmitRegister(values: any) {
             icon: "success",
             confirmButtonText: "Tiếp tục",
             timer: 5000,
-        }).then(() => {
-            navigateTo({ path: '/app' })
+        }).then(async () => {
+            await navigateTo('/player')
         });
     } else {
         const errorCode = JSON.stringify(errors.value.code)
@@ -45,8 +50,8 @@ async function onSubmitRegister(values: any) {
             html: 'Mã: ' + errorCode + '<br>Mô tả: ' + errorMsg,
             icon: "error",
             confirmButtonText: "Quay lại",
-        }).then(() => {
-            navigateTo({ path: 'register' })
+        }).then(async () => {
+            await navigateTo('/auth/register')
         });
     }
 

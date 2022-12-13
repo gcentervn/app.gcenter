@@ -2,6 +2,10 @@
 import { storeToRefs } from 'pinia';
 import { Form, Field } from 'vee-validate';
 
+useHead({
+    title: 'Đăng nhập'
+})
+
 definePageMeta({
     layout: "auth-layout",
 });
@@ -20,6 +24,7 @@ const schema = {
 const dialog = ref(false)
 
 async function onSubmitLogin(values: any) {
+    await AuthStore.logout()
     dialog.value = true
     await AuthStore.login(values)
     dialog.value = false
@@ -30,8 +35,8 @@ async function onSubmitLogin(values: any) {
             icon: "success",
             showConfirmButton: false,
             timer: 1000
-        }).then(() => {
-            navigateTo('/app')
+        }).then(async () => {
+            await navigateTo('/app')
         });
     } else {
         const errorCode = JSON.stringify(errors.value.code)
@@ -41,8 +46,8 @@ async function onSubmitLogin(values: any) {
             html: 'Mã: ' + errorCode + '<br>Mô tả: ' + errorMsg,
             icon: "error",
             confirmButtonText: "Quay lại",
-        }).then(() => {
-            navigateTo({ path: 'login' })
+        }).then(async () => {
+            await navigateTo('/auth/login')
         });
     }
 }
