@@ -37,6 +37,7 @@ export default defineNuxtConfig({
         ], */
     ],
     image: {
+        domains: ['http://api.gcenter.vn'],
         // The screen sizes predefined by `@nuxt/image`:
         screens: {
             xs: 320,
