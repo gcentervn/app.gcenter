@@ -11,9 +11,6 @@ const props = defineProps({
     game: Object
 })
 
-
-console.log(props.game)
-
 const show = ref(false)
 
 </script>

@@ -17,7 +17,7 @@ const { drawer } = storeToRefs(GlobalStore)
         <AppSystemBar />
     </v-system-bar>
 
-    <v-navigation-drawer app color="grey-lighten-3" rail rail-width="48" permanent>
+    <v-navigation-drawer id="drawerRail" app rail rail-width="48" permanent>
         <AppDrawerRail />
     </v-navigation-drawer>
 
@@ -44,3 +44,10 @@ const { drawer } = storeToRefs(GlobalStore)
     </v-footer> -->
 
 </template>
+
+<style>
+#drawerRail {
+    background: rgba(10, 10, 10, .85);
+    box-shadow: 0 8px 8px rgb(2 4 24);
+}
+</style>

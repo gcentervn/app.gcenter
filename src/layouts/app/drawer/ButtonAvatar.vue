@@ -4,6 +4,23 @@ const AuthStore = useAuthStore()
 async function btnLogout() {
     await AuthStore.logout()
 }
+
+const config = useRuntimeConfig()
+const apiBaseURL = config.public.API_BASE_URL
+
+const playerData: any = await useFetch(`${apiBaseURL}/players/get_player_by_id`, {
+    method: 'POST',
+    headers: {
+        'trongateToken': useCookie('token').value as string,
+    },
+    body: {
+        id: useCookie('user').value?.trongate_user_id
+    },
+    parseResponse: JSON.parse
+})
+
+const player = ref(playerData.data)
+const playerRole = ref(useCookie('user').value?.user_level)
 </script>
 <template>
     <div>
@@ -16,27 +33,27 @@ async function btnLogout() {
                     <v-row no-gutters>
                         <v-col cols="4" class="d-flex flex-column align-center justify-center">
                             <v-avatar class="d-block text-center my-1" color="grey-darken-1" size="66" />
-                            <span class="text-caption">Admin</span>
+                            <span class="text-caption">{{ playerRole }}</span>
                         </v-col>
                         <v-col cols="8" class="d-flex flex-column">
                             <div class="mb-1">
                                 <v-chip class="px-1" color="muted" label>
                                     Name:
                                 </v-chip>&nbsp;
-                                <span class="text-body-1"><strong>Golden</strong></span>
+                                <span class="text-body-1 w-100"><strong>{{ player.display_name }}</strong></span>
                             </div>
 
                             <div class="mb-1">
                                 <v-chip class="px-1" color="muted" label>
                                     ID:
                                 </v-chip>&nbsp;
-                                <span class="text-body-1"><strong>quangquoc</strong></span>
+                                <span class="text-body-1"><strong>{{ player.trongate_user_id }}</strong></span>
                             </div>
                             <div class="mb-1">
                                 <v-chip class="px-1" color="muted" label>
                                     VIP:
                                 </v-chip>&nbsp;
-                                <span class="text-body-1"><strong>10</strong></span>
+                                <span class="text-body-1"><strong>/</strong></span>
                             </div>
 
                         </v-col>
@@ -48,7 +65,7 @@ async function btnLogout() {
                                 <v-chip class="px-1" color="yellow-darken-4" label>
                                     Gcoin:
                                 </v-chip>&nbsp;
-                                <span class="text-body-1"><strong>10</strong></span>
+                                <span class="text-body-1"><strong>{{ player.gcoin }}</strong></span>
                             </div>
                         </v-col>
                         <v-col>
@@ -56,7 +73,7 @@ async function btnLogout() {
                                 <v-chip class="px-1" color="blue" label>
                                     Bluz:
                                 </v-chip>&nbsp;
-                                <span class="text-body-1"><strong>10</strong></span>
+                                <span class="text-body-1"><strong>{{ player.bluz }}</strong></span>
                             </div>
                         </v-col>
                     </v-row>

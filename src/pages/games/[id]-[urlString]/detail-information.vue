@@ -53,12 +53,12 @@ const game = gameData.data as any
                         variant="outlined" class="w-100">Cộng Đồng</v-btn>
                 </v-list-item>
                 <v-list-item :disabled="game?.url_playnow == '' ? true : false">
-                    <v-btn :href="game?.url_social" :target="'blank'" prepend-icon="mdi-play-box" variant="outlined"
+                    <v-btn :href="game?.url_playnow" :target="'blank'" prepend-icon="mdi-play-box" variant="outlined"
                         class="w-100">Chơi Ngay</v-btn>
                 </v-list-item>
                 <v-list-item :disabled="game?.url_download == '' ? true : false">
-                    <v-btn :href="game?.url_social" :target="'blank'" prepend-icon="mdi-download-box" variant="outlined"
-                        class="w-100">Tải Game</v-btn>
+                    <v-btn :href="game?.url_download" :target="'blank'" prepend-icon="mdi-download-box"
+                        variant="outlined" class="w-100">Tải Game</v-btn>
                 </v-list-item>
             </v-list>
         </v-col>
