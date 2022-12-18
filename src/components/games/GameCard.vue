@@ -20,7 +20,8 @@ const show = ref(false)
 
 <template>
     <v-card elevation="6">
-        <nuxt-picture format="webp" src="http://api.gcenter.vn/games_module/games_pics/1/banner-muh5-600x600.png"
+        <nuxt-picture format="webp"
+            :src="`http://api.gcenter.vn/games_module/games_pics/${props.game?.id}/${props.game?.picture}`"
             :imgAttrs="{ style: 'width:100%' }" />
         <v-card-title class="py-0">
             {{ props.game?.name }}
@@ -34,7 +35,8 @@ const show = ref(false)
         </v-card-subtitle>
 
         <v-card-actions>
-            <v-btn color="green-lighten-1" variant="text" height="24">
+            <v-btn :href="`/games/${props.game?.id}-${props.game?.url_string}/detail-information`"
+                color="green-lighten-1" variant="text" height="24">
                 Chi tiết
             </v-btn>
 

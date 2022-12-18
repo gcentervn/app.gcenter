@@ -16,7 +16,7 @@ const show = ref(false)
 </script>
 <template>
     <v-row>
-        <v-col cols="12" sm="6" v-for="game in props.games">
+        <v-col cols="12" md="4" v-for="game in props.games">
             <GameCard :game="game" />
         </v-col>
     </v-row>
