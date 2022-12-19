@@ -15,7 +15,7 @@ const listPlayers: any = await useFetch(`${apiBaseURL}/players/get_all_players`,
 
 const players = ref(listPlayers.data);
 
-const isActive = true;
+let isActive = true;
 </script>
 <template>
     <v-container v-if="!AuthStore.isUserAuthenticated">

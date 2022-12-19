@@ -1,4 +1,6 @@
 <script lang="ts">
+const apiBaseURL = useRuntimeConfig().public.API_BASE_URL
+
 export default {
     inheritAttrs: false, // This is what disables attribute inheritance
     name: "GameCard"
@@ -18,7 +20,7 @@ const show = ref(false)
 <template>
     <v-card elevation="6">
         <nuxt-picture format="webp"
-            :src="`http://api.gcenter.vn/games_module/games_pics/${props.game?.id}/${props.game?.picture}`"
+            :src="`${apiBaseURL}/games_module/games_pics/${props.game?.id}/${props.game?.picture}`"
             :imgAttrs="{ style: 'width:100%' }" />
         <v-card-title class="py-0">
             {{ props.game?.name }}

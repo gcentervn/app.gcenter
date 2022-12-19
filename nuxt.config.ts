@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     components: false,
     runtimeConfig: {
         public: {
-            API_BASE_URL: process.env.API_BASE_URL || 'http://api.gcenter.vn'
+            API_BASE_URL: process.env.API_BASE_URL || 'https://api.gcenter.vn'
         }
     },
     routeRules: {
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
         ], */
     ],
     image: {
-        domains: ['http://api.gcenter.vn'],
+        domains: ['https://api.gcenter.vn'],
         // The screen sizes predefined by `@nuxt/image`:
         screens: {
             xs: 320,
