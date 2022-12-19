@@ -1,6 +1,6 @@
 <script setup lang="ts">
 navigateTo({
-    path: '/app'
+    path: '/app/homepage'
 })
 </script>
 <template>

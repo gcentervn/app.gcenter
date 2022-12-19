@@ -16,7 +16,7 @@ const toogleDarkMode = () => {
             <v-menu transition="slide-y-transition" :close-on-content-click="false">
                 <template v-slot:activator="{ props }">
 
-                    <v-btn variant="plain" size="24" class="bg-grey-lighten-2" v-bind="mergeProps(props, tooltip)">
+                    <v-btn variant="text" size="24" class="text-green-lighten-2" v-bind="mergeProps(props, tooltip)">
                         <v-icon>mdi mdi-spider-thread</v-icon>
                     </v-btn>
 
