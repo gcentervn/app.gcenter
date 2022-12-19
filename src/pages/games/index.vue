@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import ListGameNew from '@/components/app/ListGameNew.vue'
 
+useHead({
+    title: 'Trung tâm trò chơi'
+})
+
 const apiBaseURL = useRuntimeConfig().public.API_BASE_URL
 
 const listGames: any = useFetch(`${apiBaseURL}/games/get_all_games`,

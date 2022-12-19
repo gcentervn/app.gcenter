@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+    title: 'Trung tâm tài khoản'
+})
+
 definePageMeta({
     middleware: 'auth'
 })

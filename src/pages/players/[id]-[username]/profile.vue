@@ -3,6 +3,10 @@ import PlayerTabProfile from '@/components/players/tab/PlayerTabProfile.vue'
 import PlayerTabAccountInfo from '@/components/players/tab/PlayerTabAccountInfo.vue'
 import PlayerTabAccountHistory from '@/components/players/tab/PlayerTabAccountHistory.vue'
 
+useHead({
+    title: 'Thông tin thành viên'
+})
+
 definePageMeta({
     middleware: 'auth'
 })

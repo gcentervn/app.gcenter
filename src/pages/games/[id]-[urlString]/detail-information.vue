@@ -19,7 +19,7 @@ const game = gameData.data as any
 <template>
     <p class="text-h4 mb-4">{{ game?.name }}</p>
     <v-row class="mx-0">
-        <v-col class="bg-green pa-1 mb-4" cols="12" md="3">
+        <v-col class="pa-1 mb-4" cols="12" md="3">
             <nuxt-picture format="webp"
                 :src="`http://api.gcenter.vn/games_module/games_pics/${game?.id}/${game?.picture}`"
                 :imgAttrs="{ style: 'width:100%' }" />
