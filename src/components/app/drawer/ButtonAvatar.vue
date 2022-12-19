@@ -90,13 +90,15 @@ const playerRole = ref(userCookie.user_level)
                 <v-divider></v-divider>
                 <v-card-text class="py-0">
                     <v-list>
-                        <v-list-item v-for="i in ['Ví', 'Lịch sử giao dịch', 'Giftcode']">
-                            <v-btn variant="outlined" class="w-100">{{ i }}</v-btn>
-                        </v-list-item>
-                        <v-divider class="my-2"></v-divider>
                         <v-list-item>
                             <v-btn variant="outlined" class="w-100">
-                                <NuxtLink class="text-black"
+                                <NuxtLink tag="v-btn" class="text-black" to="/wallet">
+                                    Ví</NuxtLink>
+                            </v-btn>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn variant="outlined" class="w-100">
+                                <NuxtLink tag="v-btn" class="text-black"
                                     :to="`/players/${player.trongate_user_id}-${player.username}/profile`">
                                     Tài khoản</NuxtLink>
                             </v-btn>

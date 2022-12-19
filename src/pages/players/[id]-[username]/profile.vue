@@ -21,11 +21,9 @@ const playerData: any = await useFetch(`${apiBaseURL}/players/get_player_by_id`,
         'trongateToken': useCookie('token').value as string,
     },
     body: {
-        id: userCookie.trongate_user_id
+        id: useRoute().params.id
     },
     parseResponse: JSON.parse
-}).catch(() => {
-    navigateTo('/app/homepage')
 })
 
 const player = ref(playerData.data)

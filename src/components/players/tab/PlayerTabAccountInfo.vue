@@ -51,7 +51,7 @@ async function onSubmitUpdate(values: any) {
             <!-- With composition it is easier since you can use the `v-model` API directly -->
             <v-row class="align-center">
                 <v-col>
-                    <v-btn color="primary" type="submit" :disabled="dialog" :loading="dialog"> Cập nhật
+                    <v-btn color="primary" type="submit" :disabled="dialog" :loading="dialog"> Chức năng đang xây dựng
                     </v-btn>
                 </v-col>
                 <v-spacer></v-spacer>
@@ -64,7 +64,7 @@ async function onSubmitUpdate(values: any) {
         <v-dialog v-model="dialog" :scrim="false" persistent>
             <v-card color="primary">
                 <v-card-text>
-                    Tiến hành đăng ký ...
+                    Đang cập nhật tài khoản ...
                     <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
                 </v-card-text>
             </v-card>

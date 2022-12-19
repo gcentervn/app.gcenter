@@ -36,7 +36,7 @@ async function onSubmitLogin(values: any) {
             showConfirmButton: false,
             timer: 1000
         }).then(async () => {
-            await navigateTo('/app')
+            await navigateTo('/app/homepage')
         });
     } else {
         const errorCode = JSON.stringify(errors.value.code)
