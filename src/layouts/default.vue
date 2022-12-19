@@ -13,7 +13,7 @@ const { drawer } = storeToRefs(GlobalStore)
 </script>
 
 <template>
-    <v-system-bar app>
+    <v-system-bar id="systemBar" app>
         <AppSystemBar />
     </v-system-bar>
 
@@ -49,5 +49,10 @@ const { drawer } = storeToRefs(GlobalStore)
 #drawerRail {
     background: rgba(10, 10, 10, .85);
     box-shadow: 0 8px 8px rgb(2 4 24);
+}
+
+#drawerRail,
+#systemBar {
+    background: rgba(10, 10, 10, .85);
 }
 </style>

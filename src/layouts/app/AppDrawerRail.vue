@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 
-import ButtonAvatar from '@/layouts/app/drawer/ButtonAvatar.vue';
-import ButtonJoin from '@/layouts/app/drawer/ButtonJoin.vue';
+import ButtonAvatar from '@/components/app/drawer/ButtonAvatar.vue';
+import ButtonJoin from '@/components/app/drawer/ButtonJoin.vue';
 
 const AuthStore = useAuthStore()
 const { isUserAuthenticated } = storeToRefs(AuthStore)

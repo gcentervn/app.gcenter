@@ -1,7 +1,7 @@
 <script lang="ts">
 export default {
     inheritAttrs: false, // This is what disables attribute inheritance
-    name: "NewGameList"
+    name: "ListGameNew"
 };
 </script>
 

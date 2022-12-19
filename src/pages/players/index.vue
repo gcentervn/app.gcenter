@@ -3,6 +3,8 @@ definePageMeta({
     middleware: 'auth'
 })
 
+const userCookie: any = useCookie('user').value
+
 const config = useRuntimeConfig()
 const apiBaseURL = config.public.API_BASE_URL
 
@@ -15,7 +17,7 @@ const listPlayers: any = await useFetch(`${apiBaseURL}/players/get_all_players`,
 })
 
 const players = ref(listPlayers.data)
-const playerRole = ref(useCookie('user').value?.user_level)
+const playerRole = ref(userCookie.user_level)
 
 </script>
 

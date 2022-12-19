@@ -23,6 +23,10 @@ export default defineNuxtPlugin(() => {
         // Generates an English message locale generator
         generateMessage: localize('vi', {
             fields: {
+                display_name: {
+                    min: 'Tên hiển thị ít nhất 0:{min} kí tự!',
+                    max: 'Tên hiển thị tối đa 0:{min} kí tự!'
+                },
                 terms: {
                     required: 'Bạn phải đồng ý đăng ký!'
                 },
